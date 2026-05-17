@@ -22,7 +22,7 @@
 
 <div id="dashboard" class="flex min-h-screen">
     <aside id="sidebar" class="sidebar w-64 bg-zinc-900 border-r border-zinc-800 flex flex-col flex-shrink-0">
-        <div class="p-6 text-xl font-bold text-green-500 border-b border-zinc-800 italic">DTracker DATABASE </div>
+        <div class="p-6 text-xl font-bold text-green-500 border-b border-zinc-800 italic">DTracker DATABASE</div>
         <nav class="p-4 space-y-4">
             <button onclick="saveData()" class="w-full bg-blue-600 hover:bg-blue-700 p-3 rounded-xl font-bold transition flex items-center justify-center">
                 <i class="fas fa-save mr-2"></i> SIMPAN DATA
@@ -71,8 +71,8 @@
                             <tr><td>3</td><td><input type="text" class="save" id="it3"></td><td><input type="text" class="save" id="ik3"></td><td><input type="number" class="save text-right font-bold text-green-500 input-val in-val" id="in3" oninput="calculate()"></td></tr>
                             <tr><td>4</td><td><input type="text" class="save" id="it4"></td><td><input type="text" class="save" id="ik4"></td><td><input type="number" class="save text-right font-bold text-green-500 input-val in-val" id="in4" oninput="calculate()"></td></tr>
                             <tr><td>5</td><td><input type="text" class="save" id="it5"></td><td><input type="text" class="save" id="ik5"></td><td><input type="number" class="save text-right font-bold text-green-500 input-val in-val" id="in5" oninput="calculate()"></td></tr>
-                            <tr><td>6</td><td><input type="text" class="save" id="it5"></td><td><input type="text" class="save" id="ik5"></td><td><input type="number" class="save text-right font-bold text-green-500 input-val in-val" id="in5" oninput="calculate()"></td></tr>
-                            <tr><td>7</td><td><input type="text" class="save" id="it5"></td><td><input type="text" class="save" id="ik5"></td><td><input type="number" class="save text-right font-bold text-green-500 input-val in-val" id="in5" oninput="calculate()"></td></tr>
+                            <tr><td>6</td><td><input type="text" class="save" id="it6"></td><td><input type="text" class="save" id="ik6"></td><td><input type="number" class="save text-right font-bold text-green-500 input-val in-val" id="in6" oninput="calculate()"></td></tr>
+                            <tr><td>7</td><td><input type="text" class="save" id="it7"></td><td><input type="text" class="save" id="ik7"></td><td><input type="number" class="save text-right font-bold text-green-500 input-val in-val" id="in7" oninput="calculate()"></td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -91,63 +91,5 @@
                             <tr><td>3</td><td><input type="text" class="save" id="ot3"></td><td><input type="text" class="save" id="ok3"></td><td><input type="number" class="save text-right font-bold text-red-500 input-val out-val" id="on3" oninput="calculate()"></td></tr>
                             <tr><td>4</td><td><input type="text" class="save" id="ot4"></td><td><input type="text" class="save" id="ok4"></td><td><input type="number" class="save text-right font-bold text-red-500 input-val out-val" id="on4" oninput="calculate()"></td></tr>
                             <tr><td>5</td><td><input type="text" class="save" id="ot5"></td><td><input type="text" class="save" id="ok5"></td><td><input type="number" class="save text-right font-bold text-red-500 input-val out-val" id="on5" oninput="calculate()"></td></tr>
-                            <tr><td>6</td><td><input type="text" class="save" id="it5"></td><td><input type="text" class="save" id="ik5"></td><td><input type="number" class="save text-right font-bold text-green-500 input-val in-val" id="in5" oninput="calculate()"></td></tr>
-                            <tr><td>7</td><td><input type="text" class="save" id="it5"></td><td><input type="text" class="save" id="ik5"></td><td><input type="number" class="save text-right font-bold text-green-500 input-val in-val" id="in5" oninput="calculate()"></td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-        </div>
-    </main>
-</div>
-
-<script>
-    function toggleSide() { document.getElementById('sidebar').classList.toggle('active'); }
-
-    // Fungsi Format Rupiah
-    function formatIDR(num) {
-        return "Rp " + new Intl.NumberFormat('id-ID').format(num);
-    }
-
-    // HITUNG OTOMATIS
-    function calculate() {
-        let totalIn = 0;
-        let totalOut = 0;
-
-        document.querySelectorAll('.in-val').forEach(input => {
-            totalIn += Number(input.value) || 0;
-        });
-
-        document.querySelectorAll('.out-val').forEach(input => {
-            totalOut += Number(input.value) || 0;
-        });
-
-        let saldo = totalIn - totalOut;
-
-        document.getElementById('display-total-masuk').innerText = formatIDR(totalIn);
-        document.getElementById('display-total-keluar').innerText = formatIDR(totalOut);
-        document.getElementById('display-saldo').innerText = formatIDR(saldo);
-    }
-
-    // SIMPAN DATA
-    function saveData() {
-        const inputs = document.querySelectorAll('.save');
-        inputs.forEach(input => {
-            localStorage.setItem('gery_data_' + input.id, input.value);
-        });
-        alert("✅ Data Berhasil Disimpan!");
-    }
-
-    // LOAD DATA SAAT BUKA
-    window.onload = function() {
-        const inputs = document.querySelectorAll('.save');
-        inputs.forEach(input => {
-            const saved = localStorage.getItem('gery_data_' + input.id);
-            if (saved) input.value = saved;
-        });
-        calculate(); // Hitung ulang setelah load
-    };
-</script>
-</body>
-</html>
+                            <tr><td>6</td><td><input type="text" class="save" id="ot6"></td><td><input type="text" class="save" id="ok6"></td><td><input type="number" class="save text-right font-bold text-red-500 input-val out-val" id="on6" oninput="calculate()"></td></tr>
+                            <tr><td>7</td><td><input type="text" class="save" id="ot7"></td><td><input type="text" class="save" id="ok7"></td><td><input type="number" class="save text-right font-bold text-red-500 input-val
