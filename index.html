@@ -8,99 +8,100 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/dist/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #121212; color: white; }
+        body { font-family: 'Inter', sans-serif; background-color: #000; color: white; }
         .sidebar { transition: all 0.3s; }
+        .menu-link.active { background-color: #16a34a; color: white; }
         @media (max-width: 768px) {
-            .sidebar { transform: translateX(-100%); position: fixed; z-index: 50; }
+            .sidebar { transform: translateX(-100%); position: fixed; z-index: 50; height: 100vh; }
             .sidebar.active { transform: translateX(0); }
         }
     </style>
 </head>
 <body>
 
-<div id="login-page" class="flex items-center justify-center min-h-screen p-4">
-    <div class="bg-zinc-900 p-8 rounded-2xl shadow-2xl w-full max-w-md border border-zinc-800">
-        <div class="text-center mb-8">
-            <i class="fas fa-wallet text-4xl text-green-500 mb-2"></i>
-            <h2 class="text-2xl font-bold">Gery Finance Login</h2>
-        </div>
+<div id="login-page" class="flex items-center justify-center min-h-screen p-4 bg-black">
+    <div class="bg-zinc-900 p-8 rounded-2xl shadow-2xl w-full max-w-md border border-zinc-800 text-center">
+        <i class="fas fa-dumbbell text-5xl text-green-500 mb-4"></i>
+        <h2 class="text-2xl font-bold mb-6 text-green-500">GERY GYM LOGIN</h2>
         <div class="space-y-4">
-            <input type="text" id="username" placeholder="Username" class="w-full p-3 bg-zinc-800 border border-zinc-700 rounded-lg focus:outline-none focus:border-green-500">
-            <input type="password" id="password" placeholder="Password" class="w-full p-3 bg-zinc-800 border border-zinc-700 rounded-lg focus:outline-none focus:border-green-500">
-            <button onclick="checkLogin()" class="w-full bg-green-600 hover:bg-green-700 p-3 rounded-lg font-bold transition">MASUK</button>
-            <p id="error-msg" class="text-red-500 text-sm text-center hidden">Username atau Password salah!</p>
+            <input type="text" id="username" placeholder="Username" class="w-full p-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white">
+            <input type="password" id="password" placeholder="Password" class="w-full p-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white">
+            <button onclick="checkLogin()" class="w-full bg-green-600 hover:bg-green-700 p-3 rounded-lg font-bold transition uppercase tracking-wider">Masuk</button>
+            <p id="error-msg" class="text-red-500 text-sm hidden">Username atau Password salah!</p>
         </div>
     </div>
 </div>
 
-<div id="dashboard" class="hidden flex min-h-screen">
+<div id="dashboard" class="hidden flex min-h-screen overflow-hidden">
     
     <aside id="sidebar" class="sidebar w-64 bg-zinc-900 border-r border-zinc-800 flex-shrink-0 flex flex-col">
-        <div class="p-6 text-xl font-bold border-b border-zinc-800 flex justify-between items-center">
-            <span>GERY GYM</span>
-            <button onclick="toggleSidebar()" class="md:hidden text-zinc-400"><i class="fas fa-times"></i></button>
-        </div>
+        <div class="p-6 text-xl font-black border-b border-zinc-800 text-green-500 italic">GERY GYM</div>
         <nav class="flex-1 p-4 space-y-2">
-            <a href="#" class="block p-3 rounded-lg bg-green-600 text-white"><i class="fas fa-home mr-3"></i> Dashboard</a>
-            <a href="#" class="block p-3 rounded-lg text-zinc-400 hover:bg-zinc-800"><i class="fas fa-chart-line mr-3"></i> Keuangan</a>
-            <a href="#" class="block p-3 rounded-lg text-zinc-400 hover:bg-zinc-800"><i class="fas fa-dumbbell mr-3"></i> Program Gym</a>
-            <button onclick="logout()" class="w-full text-left p-3 rounded-lg text-red-400 hover:bg-zinc-800 mt-10"><i class="fas fa-sign-out-alt mr-3"></i> Keluar</button>
+            <button onclick="showSection('section-home', this)" class="menu-link active w-full text-left p-3 rounded-lg flex items-center transition"><i class="fas fa-home mr-3"></i> Dashboard</button>
+            <button onclick="showSection('section-keuangan', this)" class="menu-link w-full text-left p-3 rounded-lg text-zinc-400 hover:bg-zinc-800 flex items-center transition"><i class="fas fa-wallet mr-3"></i> Keuangan</button>
+            <button onclick="showSection('section-gym', this)" class="menu-link w-full text-left p-3 rounded-lg text-zinc-400 hover:bg-zinc-800 flex items-center transition"><i class="fas fa-dumbbell mr-3"></i> Program Gym</button>
+            <button onclick="logout()" class="w-full text-left p-3 rounded-lg text-red-500 hover:bg-red-950/20 mt-10 transition"><i class="fas fa-sign-out-alt mr-3"></i> Keluar</button>
         </nav>
     </aside>
 
     <main class="flex-1 flex flex-col min-w-0">
         <header class="h-16 bg-zinc-900 border-b border-zinc-800 flex items-center justify-between px-6">
             <button onclick="toggleSidebar()" class="md:hidden p-2 text-zinc-400"><i class="fas fa-bars"></i></button>
-            <span class="font-semibold italic">Selamat datang, Gery!</span>
+            <span class="text-sm italic text-zinc-400">User: <span class="text-green-500 font-bold uppercase">Gery</span></span>
         </header>
 
-        <div class="p-4 md:p-8 space-y-6 overflow-y-auto">
+        <div class="flex-1 overflow-y-auto p-4 md:p-8">
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-zinc-900 p-6 rounded-xl border border-zinc-800">
-                    <p class="text-zinc-400 text-sm">Total Pemasukan</p>
-                    <h3 class="text-2xl font-bold text-green-500">Rp 5.000.000</h3>
-                </div>
-                <div class="bg-zinc-900 p-6 rounded-xl border border-zinc-800">
-                    <p class="text-zinc-400 text-sm">Total Pengeluaran</p>
-                    <h3 class="text-2xl font-bold text-red-500">Rp 1.250.000</h3>
-                </div>
-                <div class="bg-zinc-900 p-6 rounded-xl border border-zinc-800">
-                    <p class="text-zinc-400 text-sm">Sisa Saldo</p>
-                    <h3 class="text-2xl font-bold text-blue-500">Rp 3.750.000</h3>
+            <div id="section-home" class="section-content space-y-6">
+                <h2 class="text-2xl font-bold">Ringkasan Data</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-zinc-900 p-6 rounded-xl border border-zinc-800 border-l-4 border-l-green-500">
+                        <p class="text-zinc-400 text-xs">TOTAL PEMASUKAN</p>
+                        <h3 class="text-2xl font-bold text-green-500">Rp 5.000.000</h3>
+                    </div>
+                    <div class="bg-zinc-900 p-6 rounded-xl border border-zinc-800 border-l-4 border-l-red-500">
+                        <p class="text-zinc-400 text-xs">TOTAL PENGELUARAN</p>
+                        <h3 class="text-2xl font-bold text-red-500">Rp 1.250.000</h3>
+                    </div>
+                    <div class="bg-zinc-900 p-6 rounded-xl border border-zinc-800 border-l-4 border-l-blue-500">
+                        <p class="text-zinc-400 text-xs">SISA SALDO</p>
+                        <h3 class="text-2xl font-bold text-blue-500">Rp 3.750.000</h3>
+                    </div>
                 </div>
             </div>
 
-            <div class="bg-zinc-900 rounded-xl border border-zinc-800 overflow-hidden">
-                <div class="p-4 border-b border-zinc-800 flex justify-between items-center">
-                    <h4 class="font-bold">Laporan Bulanan</h4>
-                    <button class="bg-green-600 text-xs px-3 py-1 rounded-md">+ Tambah</button>
+            <div id="section-keuangan" class="section-content hidden space-y-6">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold">Detail Keuangan</h2>
+                    <button class="bg-green-600 px-4 py-2 rounded-lg font-bold text-xs">+ DATA BARU</button>
                 </div>
-                <div class="overflow-x-auto">
+                <div class="bg-zinc-900 rounded-xl border border-zinc-800 overflow-hidden">
                     <table class="w-full text-left">
-                        <thead class="bg-zinc-800 text-zinc-400 text-xs uppercase">
+                        <thead class="bg-zinc-800 text-zinc-500 text-[10px] uppercase tracking-widest">
                             <tr>
                                 <th class="p-4">Tanggal</th>
                                 <th class="p-4">Keterangan</th>
-                                <th class="p-4">Jenis</th>
                                 <th class="p-4">Jumlah</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-zinc-800">
-                            <tr class="hover:bg-zinc-800/50">
-                                <td class="p-4 text-sm">17/05/2026</td>
-                                <td class="p-4 text-sm font-semibold text-zinc-200 text-nowrap">Gaji Member Gym</td>
-                                <td class="p-4"><span class="bg-green-900/30 text-green-500 text-[10px] px-2 py-1 rounded">Pemasukan</span></td>
-                                <td class="p-4 text-sm text-green-400 font-bold">+5.000.000</td>
-                            </tr>
-                            <tr class="hover:bg-zinc-800/50">
-                                <td class="p-4 text-sm">18/05/2026</td>
-                                <td class="p-4 text-sm font-semibold text-zinc-200 text-nowrap">Beli Suplemen</td>
-                                <td class="p-4"><span class="bg-red-900/30 text-red-500 text-[10px] px-2 py-1 rounded">Pengeluaran</span></td>
-                                <td class="p-4 text-sm text-red-400 font-bold">-1.250.000</td>
-                            </tr>
+                            <tr><td class="p-4 text-sm text-zinc-400">17/05</td><td class="p-4">Gaji Member Gym</td><td class="p-4 text-green-500 font-bold">+5.000.000</td></tr>
+                            <tr><td class="p-4 text-sm text-zinc-400">18/05</td><td class="p-4">Beli Suplemen</td><td class="p-4 text-red-500 font-bold">-1.250.000</td></tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <div id="section-gym" class="section-content hidden space-y-6">
+                <h2 class="text-2xl font-bold">Program Latihan Gym</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-zinc-900 border border-green-500 p-4 rounded-xl text-center">
+                        <h4 class="font-bold mb-2">Dumbbell Floor Press</h4>
+                        <div class="bg-zinc-800 h-32 rounded flex items-center justify-center mb-3">
+                           <span class="text-zinc-500 text-xs italic">[ Upload Gambar Di Sini ]</span>
+                        </div>
+                        <button class="w-full bg-green-600 py-2 rounded font-bold text-xs">BUKA PANDUAN</button>
+                    </div>
                 </div>
             </div>
 
@@ -110,25 +111,39 @@
 
 <script>
     function checkLogin() {
-        const user = document.getElementById('username').value;
-        const pass = document.getElementById('password').value;
-        const error = document.getElementById('error-msg');
-
-        if(user === "gery" && pass === "888") {
+        const u = document.getElementById('username').value;
+        const p = document.getElementById('password').value;
+        if(u === "gery" && p === "888") {
             document.getElementById('login-page').classList.add('hidden');
             document.getElementById('dashboard').classList.remove('hidden');
         } else {
-            error.classList.remove('hidden');
+            document.getElementById('error-msg').classList.remove('hidden');
         }
+    }
+
+    function showSection(sectionId, element) {
+        // Sembunyikan semua section
+        document.querySelectorAll('.section-content').forEach(s => s.classList.add('hidden'));
+        // Tampilkan section yang dipilih
+        document.getElementById(sectionId).classList.remove('hidden');
+        
+        // Atur warna tombol menu
+        document.querySelectorAll('.menu-link').forEach(btn => {
+            btn.classList.remove('active', 'bg-green-600', 'text-white');
+            btn.classList.add('text-zinc-400');
+        });
+        element.classList.add('active', 'bg-green-600', 'text-white');
+        element.classList.remove('text-zinc-400');
+
+        // Tutup sidebar di mobile setelah klik
+        if(window.innerWidth < 768) toggleSidebar();
     }
 
     function toggleSidebar() {
         document.getElementById('sidebar').classList.toggle('active');
     }
 
-    function logout() {
-        location.reload();
-    }
+    function logout() { location.reload(); }
 </script>
 
 </body>
