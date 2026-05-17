@@ -1,24 +1,135 @@
-# 🏋️‍♂️  Gym Center Gg
-Silakan klik menu di bawah untuk melihat detail:
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gery Finance Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/dist/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #121212; color: white; }
+        .sidebar { transition: all 0.3s; }
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); position: fixed; z-index: 50; }
+            .sidebar.active { transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
 
-<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; padding: 20px; background-color: #1a1a1a; font-family: sans-serif;">
-
-  <div style="background: #2d2d2d; border: 1px solid #d4af37; border-radius: 10px; padding: 20px; width: 250px; text-align: center; color: white;">
-    <h3 style="color: #d4af37;">Jadwal Latihan</h3>
-    <p>Lihat jam operasional dan sesi latihan.</p>
-    <a href="https://prnt.sc/D3-d0XqpGY4q" style="background: #d4af37; color: black; padding: 8px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; display: inline-block;">Buka</a>
-  </div>
-
-  <div style="background: #2d2d2d; border: 1px solid #d4af37; border-radius: 10px; padding: 20px; width: 250px; text-align: center; color: white;">
-    <h3 style="color: #d4af37;">Membership PNG</h3>
-    <p>Daftar harga member harian dan bulanan.</p>
-    <a href="LINK_GAMBAR_HARGA_DISINI" style="background: #d4af37; color: black; padding: 8px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; display: inline-block;">Buka</a>
-  </div>
-
-  <div style="background: #2d2d2d; border: 1px solid #d4af37; border-radius: 10px; padding: 20px; width: 250px; text-align: center; color: white;">
-    <h3 style="color: #d4af37;">Lokasi Cabang</h3>
-    <p>Denah lokasi dan alamat lengkap gym.</p>
-    <a href="LINK_GAMBAR_LOKASI_DISINI" style="background: #d4af37; color: black; padding: 8px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; display: inline-block;">Buka</a>
-  </div>
-
+<div id="login-page" class="flex items-center justify-center min-h-screen p-4">
+    <div class="bg-zinc-900 p-8 rounded-2xl shadow-2xl w-full max-w-md border border-zinc-800">
+        <div class="text-center mb-8">
+            <i class="fas fa-wallet text-4xl text-green-500 mb-2"></i>
+            <h2 class="text-2xl font-bold">Gery Finance Login</h2>
+        </div>
+        <div class="space-y-4">
+            <input type="text" id="username" placeholder="Username" class="w-full p-3 bg-zinc-800 border border-zinc-700 rounded-lg focus:outline-none focus:border-green-500">
+            <input type="password" id="password" placeholder="Password" class="w-full p-3 bg-zinc-800 border border-zinc-700 rounded-lg focus:outline-none focus:border-green-500">
+            <button onclick="checkLogin()" class="w-full bg-green-600 hover:bg-green-700 p-3 rounded-lg font-bold transition">MASUK</button>
+            <p id="error-msg" class="text-red-500 text-sm text-center hidden">Username atau Password salah!</p>
+        </div>
+    </div>
 </div>
+
+<div id="dashboard" class="hidden flex min-h-screen">
+    
+    <aside id="sidebar" class="sidebar w-64 bg-zinc-900 border-r border-zinc-800 flex-shrink-0 flex flex-col">
+        <div class="p-6 text-xl font-bold border-b border-zinc-800 flex justify-between items-center">
+            <span>GERY GYM</span>
+            <button onclick="toggleSidebar()" class="md:hidden text-zinc-400"><i class="fas fa-times"></i></button>
+        </div>
+        <nav class="flex-1 p-4 space-y-2">
+            <a href="#" class="block p-3 rounded-lg bg-green-600 text-white"><i class="fas fa-home mr-3"></i> Dashboard</a>
+            <a href="#" class="block p-3 rounded-lg text-zinc-400 hover:bg-zinc-800"><i class="fas fa-chart-line mr-3"></i> Keuangan</a>
+            <a href="#" class="block p-3 rounded-lg text-zinc-400 hover:bg-zinc-800"><i class="fas fa-dumbbell mr-3"></i> Program Gym</a>
+            <button onclick="logout()" class="w-full text-left p-3 rounded-lg text-red-400 hover:bg-zinc-800 mt-10"><i class="fas fa-sign-out-alt mr-3"></i> Keluar</button>
+        </nav>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-w-0">
+        <header class="h-16 bg-zinc-900 border-b border-zinc-800 flex items-center justify-between px-6">
+            <button onclick="toggleSidebar()" class="md:hidden p-2 text-zinc-400"><i class="fas fa-bars"></i></button>
+            <span class="font-semibold italic">Selamat datang, Gery!</span>
+        </header>
+
+        <div class="p-4 md:p-8 space-y-6 overflow-y-auto">
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-zinc-900 p-6 rounded-xl border border-zinc-800">
+                    <p class="text-zinc-400 text-sm">Total Pemasukan</p>
+                    <h3 class="text-2xl font-bold text-green-500">Rp 5.000.000</h3>
+                </div>
+                <div class="bg-zinc-900 p-6 rounded-xl border border-zinc-800">
+                    <p class="text-zinc-400 text-sm">Total Pengeluaran</p>
+                    <h3 class="text-2xl font-bold text-red-500">Rp 1.250.000</h3>
+                </div>
+                <div class="bg-zinc-900 p-6 rounded-xl border border-zinc-800">
+                    <p class="text-zinc-400 text-sm">Sisa Saldo</p>
+                    <h3 class="text-2xl font-bold text-blue-500">Rp 3.750.000</h3>
+                </div>
+            </div>
+
+            <div class="bg-zinc-900 rounded-xl border border-zinc-800 overflow-hidden">
+                <div class="p-4 border-b border-zinc-800 flex justify-between items-center">
+                    <h4 class="font-bold">Laporan Bulanan</h4>
+                    <button class="bg-green-600 text-xs px-3 py-1 rounded-md">+ Tambah</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-zinc-800 text-zinc-400 text-xs uppercase">
+                            <tr>
+                                <th class="p-4">Tanggal</th>
+                                <th class="p-4">Keterangan</th>
+                                <th class="p-4">Jenis</th>
+                                <th class="p-4">Jumlah</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-800">
+                            <tr class="hover:bg-zinc-800/50">
+                                <td class="p-4 text-sm">17/05/2026</td>
+                                <td class="p-4 text-sm font-semibold text-zinc-200 text-nowrap">Gaji Member Gym</td>
+                                <td class="p-4"><span class="bg-green-900/30 text-green-500 text-[10px] px-2 py-1 rounded">Pemasukan</span></td>
+                                <td class="p-4 text-sm text-green-400 font-bold">+5.000.000</td>
+                            </tr>
+                            <tr class="hover:bg-zinc-800/50">
+                                <td class="p-4 text-sm">18/05/2026</td>
+                                <td class="p-4 text-sm font-semibold text-zinc-200 text-nowrap">Beli Suplemen</td>
+                                <td class="p-4"><span class="bg-red-900/30 text-red-500 text-[10px] px-2 py-1 rounded">Pengeluaran</span></td>
+                                <td class="p-4 text-sm text-red-400 font-bold">-1.250.000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<script>
+    function checkLogin() {
+        const user = document.getElementById('username').value;
+        const pass = document.getElementById('password').value;
+        const error = document.getElementById('error-msg');
+
+        if(user === "gery" && pass === "888") {
+            document.getElementById('login-page').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+        } else {
+            error.classList.remove('hidden');
+        }
+    }
+
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('active');
+    }
+
+    function logout() {
+        location.reload();
+    }
+</script>
+
+</body>
+</html>
