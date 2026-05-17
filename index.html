@@ -103,11 +103,13 @@
 </div>
 
 <script>
+    <script>
     function toggleSide() { document.getElementById('sidebar').classList.toggle('active'); }
 
-    // Fungsi Format Rupiah
-    function formatIDR(num) {
-        return "Rp " + new Intl.NumberFormat('id-ID').format(num);
+    // FUNGSI FORMAT ANGKA (MENGGUNAKAN KOMA)
+    function formatAngka(num) {
+        // 'en-US' memastikan pemisah ribuan adalah KOMA (,)
+        return "Rp " + new Intl.NumberFormat('en-US').format(num);
     }
 
     // HITUNG OTOMATIS
@@ -115,19 +117,22 @@
         let totalIn = 0;
         let totalOut = 0;
 
+        // Hitung semua baris Dana Masuk (IN)
         document.querySelectorAll('.in-val').forEach(input => {
             totalIn += Number(input.value) || 0;
         });
 
+        // Hitung semua baris Pengeluaran (OUT)
         document.querySelectorAll('.out-val').forEach(input => {
             totalOut += Number(input.value) || 0;
         });
 
         let saldo = totalIn - totalOut;
 
-        document.getElementById('display-total-masuk').innerText = formatIDR(totalIn);
-        document.getElementById('display-total-keluar').innerText = formatIDR(totalOut);
-        document.getElementById('display-saldo').innerText = formatIDR(saldo);
+        // Update tampilan di kotak atas dengan format KOMA
+        document.getElementById('display-total-masuk').innerText = formatAngka(totalIn);
+        document.getElementById('display-total-keluar').innerText = formatAngka(totalOut);
+        document.getElementById('display-saldo').innerText = formatAngka(saldo);
     }
 
     // SIMPAN DATA
@@ -139,14 +144,14 @@
         alert("✅ Data Berhasil Disimpan!");
     }
 
-    // LOAD DATA SAAT BUKA
+    // LOAD DATA SAAT BUKA HALAMAN
     window.onload = function() {
         const inputs = document.querySelectorAll('.save');
         inputs.forEach(input => {
             const saved = localStorage.getItem('gery_data_' + input.id);
             if (saved) input.value = saved;
         });
-        calculate(); // Hitung ulang setelah load
+        calculate(); // Langsung hitung otomatis saat halaman terbuka
     };
 </script>
 </body>
