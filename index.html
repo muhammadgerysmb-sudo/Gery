@@ -10,10 +10,31 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #000; color: white; }
         .card { background: #111; border: 1px solid #333; border-radius: 12px; }
-        input { background: transparent; border: none; color: white; width: 100%; outline: none; padding: 5px; }
+        
+        /* CSS Supaya Sejajar Sempurna */
+        input { 
+            background: transparent; 
+            border: none; 
+            color: white; 
+            width: 100%; 
+            outline: none; 
+            padding: 0px 5px; /* Menghapus padding besar agar teks tidak turun */
+            height: 100%;    /* Menyesuaikan tinggi kolom */
+            display: flex;
+            align-items: center;
+        }
+        
         input:focus { background: rgba(34, 197, 94, 0.1); border-radius: 4px; }
+        
         th { background: #1a1a1a; color: #666; font-size: 11px; text-transform: uppercase; padding: 12px; border-bottom: 2px solid #333; }
-        td { border-bottom: 1px solid #222; padding: 10px; }
+        
+        /* Menyamakan tinggi baris agar nomor dan input sejajar horizontal */
+        td { 
+            border-bottom: 1px solid #222; 
+            padding: 0 10px; 
+            height: 45px; 
+            vertical-align: middle; 
+        }
     </style>
 </head>
 <body>
@@ -22,7 +43,7 @@
     <aside class="w-64 bg-zinc-900 border-r border-zinc-800 flex flex-col">
         <div class="p-6 text-xl font-bold text-green-500 border-b border-zinc-800 italic">DTracker</div>
         <nav class="p-4 space-y-4">
-            <button onclick="saveData()" class="w-full bg-blue-600 hover:bg-blue-700 p-3 rounded-xl font-bold flex items-center justify-center">
+            <button onclick="saveData()" class="w-full bg-blue-600 hover:bg-blue-700 p-3 rounded-xl font-bold flex items-center justify-center transition-all">
                 <i class="fas fa-save mr-2"></i> SIMPAN DATA
             </button>
             <p class="text-zinc-500 text-[10px] font-bold px-2 uppercase">Halaman</p>
@@ -49,16 +70,20 @@
         <div class="space-y-3">
             <h2 class="text-green-500 font-bold uppercase text-sm tracking-widest">Dana Masuk (IN)</h2>
             <div class="card overflow-hidden">
-                <table class="w-full">
-                    <thead><tr><th>NO</th><th>TANGGAL</th><th>KETERANGAN</th><th class="text-right">NOMINAL (RP)</th></tr></thead>
+                <table class="w-full border-collapse">
+                    <thead><tr><th width="5%">NO</th><th width="25%">TANGGAL</th><th width="40%">KETERANGAN</th><th class="text-right">NOMINAL (RP)</th></tr></thead>
                     <tbody>
-                        <tr><td>1</td><td><input type="text" class="save" id="it1"></td><td><input type="text" class="save" id="ik1"></td><td><input type="text" class="save text-right font-bold text-green-500 in-val" id="in1" oninput="formatInput(this)"></td></tr>
-                        <tr><td>2</td><td><input type="text" class="save" id="it2"></td><td><input type="text" class="save" id="ik2"></td><td><input type="text" class="save text-right font-bold text-green-500 in-val" id="in2" oninput="formatInput(this)"></td></tr>
-                        <tr><td>3</td><td><input type="text" class="save" id="it3"></td><td><input type="text" class="save" id="ik3"></td><td><input type="text" class="save text-right font-bold text-green-500 in-val" id="in3" oninput="formatInput(this)"></td></tr>
-                        <tr><td>4</td><td><input type="text" class="save" id="it4"></td><td><input type="text" class="save" id="ik4"></td><td><input type="text" class="save text-right font-bold text-green-500 in-val" id="in4" oninput="formatInput(this)"></td></tr>
-                        <tr><td>5</td><td><input type="text" class="save" id="it5"></td><td><input type="text" class="save" id="ik5"></td><td><input type="text" class="save text-right font-bold text-green-500 in-val" id="in5" oninput="formatInput(this)"></td></tr>
-                        <tr><td>6</td><td><input type="text" class="save" id="it6"></td><td><input type="text" class="save" id="ik6"></td><td><input type="text" class="save text-right font-bold text-green-500 in-val" id="in6" oninput="formatInput(this)"></td></tr>
-                        <tr><td>7</td><td><input type="text" class="save" id="it7"></td><td><input type="text" class="save" id="ik7"></td><td><input type="text" class="save text-right font-bold text-green-500 in-val" id="in7" oninput="formatInput(this)"></td></tr>
+                        <script>
+                            for(let i=1; i<=7; i++) {
+                                document.write(`
+                                <tr>
+                                    <td class="text-center text-zinc-500 font-bold text-sm">${i}</td>
+                                    <td><input type="text" class="save" id="it${i}" placeholder="-"></td>
+                                    <td><input type="text" class="save" id="ik${i}" placeholder="-"></td>
+                                    <td><input type="text" class="save text-right font-bold text-green-500 in-val" id="in${i}" oninput="formatInput(this)" placeholder="0"></td>
+                                </tr>`);
+                            }
+                        </script>
                     </tbody>
                 </table>
             </div>
@@ -67,16 +92,20 @@
         <div class="space-y-3">
             <h2 class="text-red-500 font-bold uppercase text-sm tracking-widest">Pengeluaran (OUT)</h2>
             <div class="card overflow-hidden">
-                <table class="w-full">
-                    <thead><tr><th>NO</th><th>TANGGAL</th><th>KETERANGAN</th><th class="text-right">NOMINAL (RP)</th></tr></thead>
+                <table class="w-full border-collapse">
+                    <thead><tr><th width="5%">NO</th><th width="25%">TANGGAL</th><th width="40%">KETERANGAN</th><th class="text-right">NOMINAL (RP)</th></tr></thead>
                     <tbody>
-                        <tr><td>1</td><td><input type="text" class="save" id="ot1"></td><td><input type="text" class="save" id="ok1"></td><td><input type="text" class="save text-right font-bold text-red-500 out-val" id="on1" oninput="formatInput(this)"></td></tr>
-                        <tr><td>2</td><td><input type="text" class="save" id="ot2"></td><td><input type="text" class="save" id="ok2"></td><td><input type="text" class="save text-right font-bold text-red-500 out-val" id="on2" oninput="formatInput(this)"></td></tr>
-                        <tr><td>3</td><td><input type="text" class="save" id="ot3"></td><td><input type="text" class="save" id="ok3"></td><td><input type="text" class="save text-right font-bold text-red-500 out-val" id="on3" oninput="input(this)"></td></tr>
-                        <tr><td>4</td><td><input type="text" class="save" id="ot4"></td><td><input type="text" class="save" id="ok4"></td><td><input type="text" class="save text-right font-bold text-red-500 out-val" id="on4" oninput="formatInput(this)"></td></tr>
-                        <tr><td>5</td><td><input type="text" class="save" id="ot5"></td><td><input type="text" class="save" id="ok5"></td><td><input type="text" class="save text-right font-bold text-red-500 out-val" id="on5" oninput="formatInput(this)"></td></tr>
-                        <tr><td>6</td><td><input type="text" class="save" id="ot6"></td><td><input type="text" class="save" id="ok6"></td><td><input type="text" class="save text-right font-bold text-red-500 out-val" id="on6" oninput="formatInput(this)"></td></tr>
-                        <tr><td>7</td><td><input type="text" class="save" id="ot7"></td><td><input type="text" class="save" id="ok7"></td><td><input type="text" class="save text-right font-bold text-red-500 out-val" id="on7" oninput="formatInput(this)"></td></tr>
+                        <script>
+                            for(let i=1; i<=7; i++) {
+                                document.write(`
+                                <tr>
+                                    <td class="text-center text-zinc-500 font-bold text-sm">${i}</td>
+                                    <td><input type="text" class="save" id="ot${i}" placeholder="-"></td>
+                                    <td><input type="text" class="save" id="ok${i}" placeholder="-"></td>
+                                    <td><input type="text" class="save text-right font-bold text-red-500 out-val" id="on${i}" oninput="formatInput(this)" placeholder="0"></td>
+                                </tr>`);
+                            }
+                        </script>
                     </tbody>
                 </table>
             </div>
@@ -85,7 +114,6 @@
 </div>
 
 <script>
-    // Fungsi untuk memformat angka jadi koma saat mengetik
     function formatInput(el) {
         let val = el.value.replace(/[^0-9]/g, '');
         if (val !== "") {
@@ -96,7 +124,6 @@
         calculate();
     }
 
-    // Fungsi konversi string koma ke angka asli untuk hitungan
     function toNum(str) {
         return Number(str.replace(/,/g, '')) || 0;
     }
@@ -124,14 +151,14 @@
 
     function saveData() {
         document.querySelectorAll('.save').forEach(input => {
-            localStorage.setItem('gery_finance_v3_' + input.id, input.value);
+            localStorage.setItem('gery_finance_v4_' + input.id, input.value);
         });
-        alert("✅ Data Berhasil Disimpan dengan Format Koma!");
+        alert("✅ Berhasil! Data sudah rapi dan sejajar.");
     }
 
     window.onload = function() {
         document.querySelectorAll('.save').forEach(input => {
-            const saved = localStorage.getItem('gery_finance_v3_' + input.id);
+            const saved = localStorage.getItem('gery_finance_v4_' + input.id);
             if (saved) input.value = saved;
         });
         calculate();
