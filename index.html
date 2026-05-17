@@ -11,30 +11,32 @@
         body { font-family: 'Inter', sans-serif; background-color: #000; color: white; }
         .card { background: #111; border: 1px solid #333; border-radius: 12px; }
         
-        /* CSS Supaya Sejajar Sempurna */
+        /* CSS UNTUK KESEJAJARAN SEMPURNA */
         input { 
             background: transparent; 
             border: none; 
             color: white; 
             width: 100%; 
             outline: none; 
-            padding: 0px 5px; /* Menghapus padding besar agar teks tidak turun */
-            height: 100%;    /* Menyesuaikan tinggi kolom */
-            display: flex;
-            align-items: center;
+            padding: 0 5px; 
+            height: 45px;      /* Tinggi input disamakan dengan tinggi baris td */
+            line-height: 45px; /* Memastikan teks berada tepat di tengah vertikal */
+            display: block;
         }
         
-        input:focus { background: rgba(34, 197, 94, 0.1); border-radius: 4px; }
+        input:focus { background: rgba(34, 197, 94, 0.05); border-radius: 4px; }
         
-        th { background: #1a1a1a; color: #666; font-size: 11px; text-transform: uppercase; padding: 12px; border-bottom: 2px solid #333; }
+        th { background: #1a1a1a; color: #666; font-size: 11px; text-transform: uppercase; padding: 12px; border-bottom: 2px solid #333; text-align: left; }
+        .text-right-header { text-align: right; }
         
-        /* Menyamakan tinggi baris agar nomor dan input sejajar horizontal */
         td { 
             border-bottom: 1px solid #222; 
             padding: 0 10px; 
-            height: 45px; 
+            height: 45px;      /* Kunci tinggi kolom */
             vertical-align: middle; 
         }
+
+        .col-no { width: 5%; text-align: center; color: #555; font-weight: bold; font-size: 13px; }
     </style>
 </head>
 <body>
@@ -71,13 +73,20 @@
             <h2 class="text-green-500 font-bold uppercase text-sm tracking-widest">Dana Masuk (IN)</h2>
             <div class="card overflow-hidden">
                 <table class="w-full border-collapse">
-                    <thead><tr><th width="5%">NO</th><th width="25%">TANGGAL</th><th width="40%">KETERANGAN</th><th class="text-right">NOMINAL (RP)</th></tr></thead>
+                    <thead>
+                        <tr>
+                            <th class="text-center">NO</th>
+                            <th width="25%">TANGGAL</th>
+                            <th width="40%">KETERANGAN</th>
+                            <th class="text-right-header">NOMINAL (RP)</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         <script>
                             for(let i=1; i<=7; i++) {
                                 document.write(`
                                 <tr>
-                                    <td class="text-center text-zinc-500 font-bold text-sm">${i}</td>
+                                    <td class="col-no">${i}</td>
                                     <td><input type="text" class="save" id="it${i}" placeholder="-"></td>
                                     <td><input type="text" class="save" id="ik${i}" placeholder="-"></td>
                                     <td><input type="text" class="save text-right font-bold text-green-500 in-val" id="in${i}" oninput="formatInput(this)" placeholder="0"></td>
@@ -93,13 +102,20 @@
             <h2 class="text-red-500 font-bold uppercase text-sm tracking-widest">Pengeluaran (OUT)</h2>
             <div class="card overflow-hidden">
                 <table class="w-full border-collapse">
-                    <thead><tr><th width="5%">NO</th><th width="25%">TANGGAL</th><th width="40%">KETERANGAN</th><th class="text-right">NOMINAL (RP)</th></tr></thead>
+                    <thead>
+                        <tr>
+                            <th class="text-center">NO</th>
+                            <th width="25%">TANGGAL</th>
+                            <th width="40%">KETERANGAN</th>
+                            <th class="text-right-header">NOMINAL (RP)</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         <script>
                             for(let i=1; i<=7; i++) {
                                 document.write(`
                                 <tr>
-                                    <td class="text-center text-zinc-500 font-bold text-sm">${i}</td>
+                                    <td class="col-no">${i}</td>
                                     <td><input type="text" class="save" id="ot${i}" placeholder="-"></td>
                                     <td><input type="text" class="save" id="ok${i}" placeholder="-"></td>
                                     <td><input type="text" class="save text-right font-bold text-red-500 out-val" id="on${i}" oninput="formatInput(this)" placeholder="0"></td>
@@ -153,7 +169,7 @@
         document.querySelectorAll('.save').forEach(input => {
             localStorage.setItem('gery_finance_v4_' + input.id, input.value);
         });
-        alert("✅ Berhasil! Data sudah rapi dan sejajar.");
+        alert("✅ Berhasil! Data sudah rapi, sejajar, dan tersimpan.");
     }
 
     window.onload = function() {
