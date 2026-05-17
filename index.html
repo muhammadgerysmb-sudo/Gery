@@ -14,82 +14,113 @@
         input:focus { background: rgba(34, 197, 94, 0.1); border-radius: 4px; }
         th { background: #1a1a1a; color: #666; font-size: 11px; text-transform: uppercase; padding: 12px; border-bottom: 2px solid #333; }
         td { border-bottom: 1px solid #222; padding: 10px; }
-        .sidebar { transition: 0.3s; z-index: 50; }
-        @media (max-width: 768px) { .sidebar { transform: translateX(-100%); position: fixed; height: 100vh; } .sidebar.active { transform: translateX(0); } }
     </style>
 </head>
 <body>
 
-<div id="dashboard" class="flex min-h-screen">
-    <aside id="sidebar" class="sidebar w-64 bg-zinc-900 border-r border-zinc-800 flex flex-col flex-shrink-0">
-        <div class="p-6 text-xl font-bold text-green-500 border-b border-zinc-800 italic">DTracker DATABASE</div>
+<div class="flex min-h-screen">
+    <aside class="w-64 bg-zinc-900 border-r border-zinc-800 flex flex-col">
+        <div class="p-6 text-xl font-bold text-green-500 border-b border-zinc-800 italic">DTracker</div>
         <nav class="p-4 space-y-4">
-            <button onclick="saveData()" class="w-full bg-blue-600 hover:bg-blue-700 p-3 rounded-xl font-bold transition flex items-center justify-center">
+            <button onclick="saveData()" class="w-full bg-blue-600 hover:bg-blue-700 p-3 rounded-xl font-bold flex items-center justify-center">
                 <i class="fas fa-save mr-2"></i> SIMPAN DATA
             </button>
-            <div class="space-y-1">
-                <p class="text-zinc-500 text-[10px] font-bold px-2 uppercase">Halaman</p>
-                <a href="#" class="block p-3 rounded-lg bg-green-600/10 text-green-500 font-bold border border-green-600/20">May 2026</a>
-            </div>
-            <button onclick="location.reload()" class="w-full text-left p-3 text-red-500 text-sm"><i class="fas fa-sign-out-alt mr-2"></i> Keluar</button>
+            <p class="text-zinc-500 text-[10px] font-bold px-2 uppercase">Halaman</p>
+            <div class="p-3 rounded-lg bg-green-600/10 text-green-500 font-bold border border-green-600/20 text-center">Mei 2026</div>
         </nav>
     </aside>
 
-    <main class="flex-1 overflow-y-auto">
-        <header class="p-6 border-b border-zinc-800 flex justify-between items-center bg-black/50 backdrop-blur-md sticky top-0">
-            <button onclick="toggleSide()" class="md:hidden text-2xl"><i class="fas fa-bars"></i></button>
-            <h1 class="text-sm font-bold tracking-[0.2em] text-zinc-500">DATABASE FINANCIAL TRACKER</h1>
-        </header>
-
-        <div class="p-4 md:p-8 space-y-8 max-w-5xl mx-auto">
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="card p-6 border-l-4 border-l-green-500">
-                    <p class="text-zinc-500 text-xs font-bold mb-1 uppercase">Total Pemasukan</p>
-                    <h3 id="display-total-masuk" class="text-2xl font-black text-green-500">Rp 0</h3>
-                </div>
-                <div class="card p-6 border-l-4 border-l-red-500">
-                    <p class="text-zinc-500 text-xs font-bold mb-1 uppercase">Total Pengeluaran</p>
-                    <h3 id="display-total-keluar" class="text-2xl font-black text-red-500">Rp 0</h3>
-                </div>
-                <div class="card p-6 border-l-4 border-l-blue-500 bg-blue-500/5">
-                    <p class="text-zinc-500 text-xs font-bold mb-1 uppercase">Sisa Saldo</p>
-                    <h3 id="display-saldo" class="text-2xl font-black text-blue-500">Rp 0</h3>
-                </div>
+    <main class="flex-1 p-8 space-y-8">
+        <div class="grid grid-cols-3 gap-4">
+            <div class="card p-6 border-l-4 border-l-green-500">
+                <p class="text-zinc-500 text-xs font-bold uppercase">Total Pemasukan</p>
+                <h3 id="display-total-masuk" class="text-2xl font-black text-green-500">Rp 0</h3>
             </div>
-
-            <div class="space-y-3">
-                <h2 class="text-green-500 font-bold flex items-center"><i class="fas fa-arrow-down mr-2 text-xs"></i> PEMBAGIAN UANG (IN)</h2>
-                <div class="card overflow-hidden">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr><th width="50">NO</th><th>TANGGAL</th><th>KETERANGAN</th><th class="text-right">NOMINAL (RP)</th></tr>
-                        </thead>
-                        <tbody id="in-table">
-                            <tr><td>1</td><td><input type="text" class="save" id="it1"></td><td><input type="text" class="save" id="ik1"></td><td><input type="number" class="save text-right font-bold text-green-500 input-val in-val" id="in1" oninput="calculate()"></td></tr>
-                            <tr><td>2</td><td><input type="text" class="save" id="it2"></td><td><input type="text" class="save" id="ik2"></td><td><input type="number" class="save text-right font-bold text-green-500 input-val in-val" id="in2" oninput="calculate()"></td></tr>
-                            <tr><td>3</td><td><input type="text" class="save" id="it3"></td><td><input type="text" class="save" id="ik3"></td><td><input type="number" class="save text-right font-bold text-green-500 input-val in-val" id="in3" oninput="calculate()"></td></tr>
-                            <tr><td>4</td><td><input type="text" class="save" id="it4"></td><td><input type="text" class="save" id="ik4"></td><td><input type="number" class="save text-right font-bold text-green-500 input-val in-val" id="in4" oninput="calculate()"></td></tr>
-                            <tr><td>5</td><td><input type="text" class="save" id="it5"></td><td><input type="text" class="save" id="ik5"></td><td><input type="number" class="save text-right font-bold text-green-500 input-val in-val" id="in5" oninput="calculate()"></td></tr>
-                            <tr><td>6</td><td><input type="text" class="save" id="it6"></td><td><input type="text" class="save" id="ik6"></td><td><input type="number" class="save text-right font-bold text-green-500 input-val in-val" id="in6" oninput="calculate()"></td></tr>
-                            <tr><td>7</td><td><input type="text" class="save" id="it7"></td><td><input type="text" class="save" id="ik7"></td><td><input type="number" class="save text-right font-bold text-green-500 input-val in-val" id="in7" oninput="calculate()"></td></tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="card p-6 border-l-4 border-l-red-500">
+                <p class="text-zinc-500 text-xs font-bold uppercase">Total Pengeluaran</p>
+                <h3 id="display-total-keluar" class="text-2xl font-black text-red-500">Rp 0</h3>
             </div>
+            <div class="card p-6 border-l-4 border-l-blue-500">
+                <p class="text-zinc-500 text-xs font-bold uppercase">Sisa Saldo</p>
+                <h3 id="display-saldo" class="text-2xl font-black text-blue-500">Rp 0</h3>
+            </div>
+        </div>
 
-            <div class="space-y-3">
-                <h2 class="text-red-500 font-bold flex items-center"><i class="fas fa-arrow-up mr-2 text-xs"></i> PENGELUARAN (OUT)</h2>
-                <div class="card overflow-hidden">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr><th width="50">NO</th><th>TANGGAL</th><th>KETERANGAN</th><th class="text-right">NOMINAL (RP)</th></tr>
-                        </thead>
-                        <tbody id="out-table">
-                            <tr><td>1</td><td><input type="text" class="save" id="ot1"></td><td><input type="text" class="save" id="ok1"></td><td><input type="number" class="save text-right font-bold text-red-500 input-val out-val" id="on1" oninput="calculate()"></td></tr>
-                            <tr><td>2</td><td><input type="text" class="save" id="ot2"></td><td><input type="text" class="save" id="ok2"></td><td><input type="number" class="save text-right font-bold text-red-500 input-val out-val" id="on2" oninput="calculate()"></td></tr>
-                            <tr><td>3</td><td><input type="text" class="save" id="ot3"></td><td><input type="text" class="save" id="ok3"></td><td><input type="number" class="save text-right font-bold text-red-500 input-val out-val" id="on3" oninput="calculate()"></td></tr>
-                            <tr><td>4</td><td><input type="text" class="save" id="ot4"></td><td><input type="text" class="save" id="ok4"></td><td><input type="number" class="save text-right font-bold text-red-500 input-val out-val" id="on4" oninput="calculate()"></td></tr>
-                            <tr><td>5</td><td><input type="text" class="save" id="ot5"></td><td><input type="text" class="save" id="ok5"></td><td><input type="number" class="save text-right font-bold text-red-500 input-val out-val" id="on5" oninput="calculate()"></td></tr>
-                            <tr><td>6</td><td><input type="text" class="save" id="ot6"></td><td><input type="text" class="save" id="ok6"></td><td><input type="number" class="save text-right font-bold text-red-500 input-val out-val" id="on6" oninput="calculate()"></td></tr>
-                            <tr><td>7</td><td><input type="text" class="save" id="ot7"></td><td><input type="text" class="save" id="ok7"></td><td><input type="number" class="save text-right font-bold text-red-500 input-val
+        <div class="space-y-3">
+            <h2 class="text-green-500 font-bold">PEMBAGIAN UANG (IN)</h2>
+            <div class="card overflow-hidden">
+                <table class="w-full">
+                    <thead><tr><th>NO</th><th>TANGGAL</th><th>KETERANGAN</th><th class="text-right">NOMINAL (RP)</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td><input type="text" class="save" id="it1"></td><td><input type="text" class="save" id="ik1"></td><td><input type="number" class="save text-right font-bold text-green-500 in-val" id="in1" oninput="calculate()"></td></tr>
+                        <tr><td>2</td><td><input type="text" class="save" id="it2"></td><td><input type="text" class="save" id="ik2"></td><td><input type="number" class="save text-right font-bold text-green-500 in-val" id="in2" oninput="calculate()"></td></tr>
+                        <tr><td>3</td><td><input type="text" class="save" id="it3"></td><td><input type="text" class="save" id="ik3"></td><td><input type="number" class="save text-right font-bold text-green-500 in-val" id="in3" oninput="calculate()"></td></tr>
+                        <tr><td>4</td><td><input type="text" class="save" id="it4"></td><td><input type="text" class="save" id="ik4"></td><td><input type="number" class="save text-right font-bold text-green-500 in-val" id="in4" oninput="calculate()"></td></tr>
+                        <tr><td>5</td><td><input type="text" class="save" id="it5"></td><td><input type="text" class="save" id="ik5"></td><td><input type="number" class="save text-right font-bold text-green-500 in-val" id="in5" oninput="calculate()"></td></tr>
+                        <tr><td>6</td><td><input type="text" class="save" id="it6"></td><td><input type="text" class="save" id="ik6"></td><td><input type="number" class="save text-right font-bold text-green-500 in-val" id="in6" oninput="calculate()"></td></tr>
+                        <tr><td>7</td><td><input type="text" class="save" id="it7"></td><td><input type="text" class="save" id="ik7"></td><td><input type="number" class="save text-right font-bold text-green-500 in-val" id="in7" oninput="calculate()"></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="space-y-3">
+            <h2 class="text-red-500 font-bold">PENGELUARAN (OUT)</h2>
+            <div class="card overflow-hidden">
+                <table class="w-full">
+                    <thead><tr><th>NO</th><th>TANGGAL</th><th>KETERANGAN</th><th class="text-right">NOMINAL (RP)</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td><input type="text" class="save" id="ot1"></td><td><input type="text" class="save" id="ok1"></td><td><input type="number" class="save text-right font-bold text-red-500 out-val" id="on1" oninput="calculate()"></td></tr>
+                        <tr><td>2</td><td><input type="text" class="save" id="ot2"></td><td><input type="text" class="save" id="ok2"></td><td><input type="number" class="save text-right font-bold text-red-500 out-val" id="on2" oninput="calculate()"></td></tr>
+                        <tr><td>3</td><td><input type="text" class="save" id="ot3"></td><td><input type="text" class="save" id="ok3"></td><td><input type="number" class="save text-right font-bold text-red-500 out-val" id="on3" oninput="calculate()"></td></tr>
+                        <tr><td>4</td><td><input type="text" class="save" id="ot4"></td><td><input type="text" class="save" id="ok4"></td><td><input type="number" class="save text-right font-bold text-red-500 out-val" id="on4" oninput="calculate()"></td></tr>
+                        <tr><td>5</td><td><input type="text" class="save" id="ot5"></td><td><input type="text" class="save" id="ok5"></td><td><input type="number" class="save text-right font-bold text-red-500 out-val" id="on5" oninput="calculate()"></td></tr>
+                        <tr><td>6</td><td><input type="text" class="save" id="ot6"></td><td><input type="text" class="save" id="ok6"></td><td><input type="number" class="save text-right font-bold text-red-500 out-val" id="on6" oninput="calculate()"></td></tr>
+                        <tr><td>7</td><td><input type="text" class="save" id="ot7"></td><td><input type="text" class="save" id="ok7"></td><td><input type="number" class="save text-right font-bold text-red-500 out-val" id="on7" oninput="calculate()"></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    // Format Angka ke KOMA (en-US)
+    function formatAngka(num) {
+        return "Rp " + new Intl.NumberFormat('en-US').format(num);
+    }
+
+    function calculate() {
+        let totalIn = 0;
+        let totalOut = 0;
+
+        document.querySelectorAll('.in-val').forEach(input => {
+            totalIn += Number(input.value) || 0;
+        });
+
+        document.querySelectorAll('.out-val').forEach(input => {
+            totalOut += Number(input.value) || 0;
+        });
+
+        document.getElementById('display-total-masuk').innerText = formatAngka(totalIn);
+        document.getElementById('display-total-keluar').innerText = formatAngka(totalOut);
+        document.getElementById('display-saldo').innerText = formatAngka(totalIn - totalOut);
+    }
+
+    function saveData() {
+        document.querySelectorAll('.save').forEach(input => {
+            localStorage.setItem('gery_finance_' + input.id, input.value);
+        });
+        alert("✅ Data Mei 2026 Berhasil Disimpan!");
+    }
+
+    window.onload = function() {
+        document.querySelectorAll('.save').forEach(input => {
+            const saved = localStorage.getItem('gery_finance_' + input.id);
+            if (saved) input.value = saved;
+        });
+        calculate();
+    };
+</script>
+</body>
+</html>
