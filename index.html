@@ -3,105 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gery Finance Dashboard</title>
+    <title>Gery Financial Tracker</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/dist/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #000; color: white; }
-        .sidebar { transition: all 0.3s; }
-        .menu-link.active { background-color: #16a34a; color: white; }
-        @media (max-width: 768px) {
-            .sidebar { transform: translateX(-100%); position: fixed; z-index: 50; height: 100vh; }
-            .sidebar.active { transform: translateX(0); }
-        }
+        input { background: transparent; border: none; color: white; width: 100%; outline: none; }
+        input:focus { background: rgba(22, 163, 74, 0.1); }
+        .table-container { background: #111; border: 1px solid #333; border-radius: 8px; overflow: hidden; }
+        th { background: #222; color: #888; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; padding: 10px; }
+        td { border-bottom: 1px solid #222; padding: 8px 10px; font-size: 13px; }
+        .sidebar { transition: 0.3s; z-index: 50; }
+        @media (max-width: 768px) { .sidebar { transform: translateX(-100%); position: fixed; height: 100vh; } .sidebar.active { transform: translateX(0); } }
     </style>
 </head>
 <body>
 
-<div id="login-page" class="flex items-center justify-center min-h-screen p-4 bg-black">
-    <div class="bg-zinc-900 p-8 rounded-2xl shadow-2xl w-full max-w-md border border-zinc-800 text-center">
-        <i class="fas fa-dumbbell text-5xl text-green-500 mb-4"></i>
-        <h2 class="text-2xl font-bold mb-6 text-green-500">GERY GYM LOGIN</h2>
-        <div class="space-y-4">
-            <input type="text" id="username" placeholder="Username" class="w-full p-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white">
-            <input type="password" id="password" placeholder="Password" class="w-full p-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white">
-            <button onclick="checkLogin()" class="w-full bg-green-600 hover:bg-green-700 p-3 rounded-lg font-bold transition uppercase tracking-wider">Masuk</button>
-            <p id="error-msg" class="text-red-500 text-sm hidden">Username atau Password salah!</p>
-        </div>
+<div id="login-page" class="flex items-center justify-center min-h-screen bg-black">
+    <div class="bg-zinc-900 p-8 rounded-2xl border border-zinc-800 w-full max-w-sm text-center">
+        <h2 class="text-2xl font-bold mb-6 text-green-500 italic">GERY DATABASE</h2>
+        <input type="password" id="pass" placeholder="Password" class="bg-zinc-800 p-3 rounded-lg mb-4 text-center border border-zinc-700">
+        <button onclick="login()" class="w-full bg-green-600 p-3 rounded-lg font-bold">MASUK</button>
     </div>
 </div>
 
-<div id="dashboard" class="hidden flex min-h-screen overflow-hidden">
-    
-    <aside id="sidebar" class="sidebar w-64 bg-zinc-900 border-r border-zinc-800 flex-shrink-0 flex flex-col">
-        <div class="p-6 text-xl font-black border-b border-zinc-800 text-green-500 italic">GERY GYM</div>
-        <nav class="flex-1 p-4 space-y-2">
-            <button onclick="showSection('section-home', this)" class="menu-link active w-full text-left p-3 rounded-lg flex items-center transition"><i class="fas fa-home mr-3"></i> Dashboard</button>
-            <button onclick="showSection('section-keuangan', this)" class="menu-link w-full text-left p-3 rounded-lg text-zinc-400 hover:bg-zinc-800 flex items-center transition"><i class="fas fa-wallet mr-3"></i> Keuangan</button>
-            <button onclick="showSection('section-gym', this)" class="menu-link w-full text-left p-3 rounded-lg text-zinc-400 hover:bg-zinc-800 flex items-center transition"><i class="fas fa-dumbbell mr-3"></i> Program Gym</button>
-            <button onclick="logout()" class="w-full text-left p-3 rounded-lg text-red-500 hover:bg-red-950/20 mt-10 transition"><i class="fas fa-sign-out-alt mr-3"></i> Keluar</button>
+<div id="dashboard" class="hidden flex min-h-screen">
+    <aside id="sidebar" class="sidebar w-64 bg-zinc-900 border-r border-zinc-800 flex flex-col flex-shrink-0">
+        <div class="p-6 text-xl font-bold text-green-500 border-b border-zinc-800">FINANCIAL TRACKER</div>
+        <nav class="p-4 space-y-2">
+            <button onclick="saveData()" class="w-full bg-blue-600 p-3 rounded-lg font-bold mb-4"><i class="fas fa-save mr-2"></i> SIMPAN DATA</button>
+            <div class="text-zinc-500 text-xs p-2 uppercase font-bold">Menu</div>
+            <a href="#" class="block p-3 rounded bg-zinc-800 text-white">Agustus 2026</a>
+            <button onclick="location.reload()" class="block p-3 text-red-500">Keluar</button>
         </nav>
     </aside>
 
-    <main class="flex-1 flex flex-col min-w-0">
-        <header class="h-16 bg-zinc-900 border-b border-zinc-800 flex items-center justify-between px-6">
-            <button onclick="toggleSidebar()" class="md:hidden p-2 text-zinc-400"><i class="fas fa-bars"></i></button>
-            <span class="text-sm italic text-zinc-400">User: <span class="text-green-500 font-bold uppercase">Gery</span></span>
+    <main class="flex-1 overflow-y-auto bg-black">
+        <header class="p-4 border-b border-zinc-800 flex justify-between items-center bg-zinc-900 md:bg-transparent">
+            <button onclick="toggleSide()" class="md:hidden"><i class="fas fa-bars"></i></button>
+            <h1 class="text-sm font-bold uppercase tracking-widest text-zinc-400">Database Financial Tracker - Agustus</h1>
         </header>
 
-        <div class="flex-1 overflow-y-auto p-4 md:p-8">
+        <div class="p-4 md:p-8 space-y-8">
             
-            <div id="section-home" class="section-content space-y-6">
-                <h2 class="text-2xl font-bold">Ringkasan Data</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="bg-zinc-900 p-6 rounded-xl border border-zinc-800 border-l-4 border-l-green-500">
-                        <p class="text-zinc-400 text-xs">TOTAL PEMASUKAN</p>
-                        <h3 class="text-2xl font-bold text-green-500">Rp 5.000.000</h3>
-                    </div>
-                    <div class="bg-zinc-900 p-6 rounded-xl border border-zinc-800 border-l-4 border-l-red-500">
-                        <p class="text-zinc-400 text-xs">TOTAL PENGELUARAN</p>
-                        <h3 class="text-2xl font-bold text-red-500">Rp 1.250.000</h3>
-                    </div>
-                    <div class="bg-zinc-900 p-6 rounded-xl border border-zinc-800 border-l-4 border-l-blue-500">
-                        <p class="text-zinc-400 text-xs">SISA SALDO</p>
-                        <h3 class="text-2xl font-bold text-blue-500">Rp 3.750.000</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div id="section-keuangan" class="section-content hidden space-y-6">
-                <div class="flex justify-between items-center">
-                    <h2 class="text-2xl font-bold">Detail Keuangan</h2>
-                    <button class="bg-green-600 px-4 py-2 rounded-lg font-bold text-xs">+ DATA BARU</button>
-                </div>
-                <div class="bg-zinc-900 rounded-xl border border-zinc-800 overflow-hidden">
+            <section class="space-y-4">
+                <h2 class="text-green-500 font-bold border-l-4 border-green-500 pl-3">PEMBAGIAN UANG</h2>
+                <div class="table-container">
                     <table class="w-full text-left">
-                        <thead class="bg-zinc-800 text-zinc-500 text-[10px] uppercase tracking-widest">
-                            <tr>
-                                <th class="p-4">Tanggal</th>
-                                <th class="p-4">Keterangan</th>
-                                <th class="p-4">Jumlah</th>
-                            </tr>
+                        <thead>
+                            <tr><th>No</th><th>Tanggal</th><th>Keterangan</th><th>Nominal</th></tr>
                         </thead>
-                        <tbody class="divide-y divide-zinc-800">
-                            <tr><td class="p-4 text-sm text-zinc-400">17/05</td><td class="p-4">Gaji Member Gym</td><td class="p-4 text-green-500 font-bold">+5.000.000</td></tr>
-                            <tr><td class="p-4 text-sm text-zinc-400">18/05</td><td class="p-4">Beli Suplemen</td><td class="p-4 text-red-500 font-bold">-1.250.000</td></tr>
+                        <tbody id="pembagian-body">
+                            <tr><td>1</td><td><input type="text" class="save" id="tgl1"></td><td><input type="text" class="save" id="ket1"></td><td><input type="text" class="save text-green-500" id="nom1"></td></tr>
+                            <tr><td>2</td><td><input type="text" class="save" id="tgl2"></td><td><input type="text" class="save" id="ket2"></td><td><input type="text" class="save text-green-500" id="nom2"></td></tr>
+                            <tr><td>3</td><td><input type="text" class="save" id="tgl3"></td><td><input type="text" class="save" id="ket3"></td><td><input type="text" class="save text-green-500" id="nom3"></td></tr>
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </section>
 
-            <div id="section-gym" class="section-content hidden space-y-6">
-                <h2 class="text-2xl font-bold">Program Latihan Gym</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="bg-zinc-900 border border-green-500 p-4 rounded-xl text-center">
-                        <h4 class="font-bold mb-2">Dumbbell Floor Press</h4>
-                        <div class="bg-zinc-800 h-32 rounded flex items-center justify-center mb-3">
-                           <span class="text-zinc-500 text-xs italic">[ Upload Gambar Di Sini ]</span>
-                        </div>
-                        <button class="w-full bg-green-600 py-2 rounded font-bold text-xs">BUKA PANDUAN</button>
-                    </div>
+            <section class="space-y-4">
+                <h2 class="text-red-500 font-bold border-l-4 border-red-500 pl-3">PENGELUARAN</h2>
+                <div class="table-container">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr><th>No</th><th>Tanggal</th><th>Keterangan</th><th>Nominal</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td><input type="text" class="save" id="out_tgl1"></td><td><input type="text" class="save" id="out_ket1"></td><td><input type="text" class="save text-red-500" id="out_nom1"></td></tr>
+                            <tr><td>2</td><td><input type="text" class="save" id="out_tgl2"></td><td><input type="text" class="save" id="out_ket2"></td><td><input type="text" class="save text-red-500" id="out_nom2"></td></tr>
+                            <tr><td>3</td><td><input type="text" class="save" id="out_tgl3"></td><td><input type="text" class="save" id="out_ket3"></td><td><input type="text" class="save text-red-500" id="out_nom3"></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-zinc-900 p-4 rounded border border-zinc-800">
+                    <p class="text-[10px] text-zinc-500">TOTAL MASUK</p>
+                    <input type="text" id="total_masuk" class="save font-bold text-lg text-green-500" placeholder="Rp 0">
+                </div>
+                <div class="bg-zinc-900 p-4 rounded border border-zinc-800">
+                    <p class="text-[10px] text-zinc-500">TOTAL KELUAR</p>
+                    <input type="text" id="total_keluar" class="save font-bold text-lg text-red-500" placeholder="Rp 0">
                 </div>
             </div>
 
@@ -110,41 +95,33 @@
 </div>
 
 <script>
-    function checkLogin() {
-        const u = document.getElementById('username').value;
-        const p = document.getElementById('password').value;
-        if(u === "gery" && p === "888") {
-            document.getElementById('login-page').classList.add('hidden');
-            document.getElementById('dashboard').classList.remove('hidden');
-        } else {
-            document.getElementById('error-msg').classList.remove('hidden');
-        }
+    function login() {
+        if(document.getElementById('pass').value === "888") {
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'flex';
+            loadSavedData();
+        } else { alert("Password Salah!"); }
     }
 
-    function showSection(sectionId, element) {
-        // Sembunyikan semua section
-        document.querySelectorAll('.section-content').forEach(s => s.classList.add('hidden'));
-        // Tampilkan section yang dipilih
-        document.getElementById(sectionId).classList.remove('hidden');
-        
-        // Atur warna tombol menu
-        document.querySelectorAll('.menu-link').forEach(btn => {
-            btn.classList.remove('active', 'bg-green-600', 'text-white');
-            btn.classList.add('text-zinc-400');
+    function toggleSide() { document.getElementById('sidebar').classList.toggle('active'); }
+
+    // FUNGSI SIMPAN KE BROWSER
+    function saveData() {
+        const inputs = document.querySelectorAll('.save');
+        inputs.forEach(input => {
+            localStorage.setItem(input.id, input.value);
         });
-        element.classList.add('active', 'bg-green-600', 'text-white');
-        element.classList.remove('text-zinc-400');
-
-        // Tutup sidebar di mobile setelah klik
-        if(window.innerWidth < 768) toggleSidebar();
+        alert("Data Berhasil Disimpan di Browser Ini!");
     }
 
-    function toggleSidebar() {
-        document.getElementById('sidebar').classList.toggle('active');
+    // FUNGSI AMBIL DATA SAAT BUKA WEB
+    function loadSavedData() {
+        const inputs = document.querySelectorAll('.save');
+        inputs.forEach(input => {
+            const savedValue = localStorage.getItem(input.id);
+            if (savedValue) { input.value = savedValue; }
+        });
     }
-
-    function logout() { location.reload(); }
 </script>
-
 </body>
 </html>
