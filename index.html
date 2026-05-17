@@ -3,142 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gery Bank Dashboard</title>
+    <title>Gery Finance Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/dist/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #000; color: white; }
+        .card { background: #111; border: 1px solid #333; border-radius: 12px; }
         
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: #080808; 
-            color: #e2e8f0; 
-        }
-
-        .bank-card { 
-            background: linear-gradient(145deg, #121212, #1a1a1a); 
-            border: 1px solid #2d2d2d; 
-            border-radius: 16px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        /* KUNCI KESEJAJARAN TOTAL */
-        table { border-collapse: separate; border-spacing: 0; width: 100%; }
-        
-        th { 
-            background: #111; 
-            color: #64748b; 
-            font-size: 11px; 
-            font-weight: 800;
-            text-transform: uppercase; 
-            letter-spacing: 1px;
-            padding: 16px 12px; 
-            border-bottom: 2px solid #222;
-        }
-
-        td { 
-            border-bottom: 1px solid #1a1a1a; 
-            height: 55px; /* Tinggi baris tetap */
-            padding: 0 12px; 
-            vertical-align: middle; 
-        }
-
-        /* Input yang sejajar lurus dengan teks nomor */
+        /* CSS UNTUK KESEJAJARAN SEMPURNA */
         input { 
             background: transparent; 
             border: none; 
-            color: #fff; 
+            color: white; 
             width: 100%; 
-            height: 100%; 
             outline: none; 
-            font-size: 14px;
-            display: flex;
-            align-items: center; /* Sejajar tengah vertikal */
+            padding: 0 5px; 
+            height: 45px;      /* Tinggi input disamakan dengan tinggi baris td */
+            line-height: 45px; /* Memastikan teks berada tepat di tengah vertikal */
+            display: block;
+        }
+        
+        input:focus { background: rgba(34, 197, 94, 0.05); border-radius: 4px; }
+        
+        th { background: #1a1a1a; color: #666; font-size: 11px; text-transform: uppercase; padding: 12px; border-bottom: 2px solid #333; text-align: left; }
+        .text-right-header { text-align: right; }
+        
+        td { 
+            border-bottom: 1px solid #222; 
+            padding: 0 10px; 
+            height: 45px;      /* Kunci tinggi kolom */
+            vertical-align: middle; 
         }
 
-        input::placeholder { color: #334155; }
-        input:focus { color: #10b981; }
-
-        .no-col { 
-            width: 40px; 
-            text-align: center; 
-            color: #475569; 
-            font-weight: 600; 
-            font-size: 13px;
-        }
-
-        /* Animasi Simpan */
-        .btn-save {
-            background: linear-gradient(to right, #2563eb, #3b82f6);
-            transition: all 0.3s ease;
-        }
-        .btn-save:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(37,99,235,0.4); }
+        .col-no { width: 5%; text-align: center; color: #555; font-weight: bold; font-size: 13px; }
     </style>
 </head>
-<body class="flex min-h-screen">
+<body>
 
-    <aside class="w-72 bg-[#0d0d0d] border-r border-zinc-800 flex flex-col p-6">
-        <div class="mb-10">
-            <h1 class="text-2xl font-extrabold tracking-tighter text-white">GERY<span class="text-blue-500">BANK</span></h1>
-            <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Financial Management v4.0</p>
-        </div>
-        
-        <nav class="space-y-2 flex-1">
-            <div class="p-4 rounded-xl bg-blue-600/10 border border-blue-600/20 mb-6">
-                <p class="text-zinc-500 text-[10px] font-bold uppercase">Periode Aktif</p>
-                <p class="text-white font-bold italic">MEI 2026</p>
-            </div>
-
-            <button onclick="saveData()" class="w-full btn-save text-white p-4 rounded-2xl font-bold flex items-center justify-center gap-3">
-                <i class="fas fa-fingerprint text-xl"></i> KONFIRMASI DATA
+<div class="flex min-h-screen">
+    <aside class="w-64 bg-zinc-900 border-r border-zinc-800 flex flex-col">
+        <div class="p-6 text-xl font-bold text-green-500 border-b border-zinc-800 italic">DTracker</div>
+        <nav class="p-4 space-y-4">
+            <button onclick="saveData()" class="w-full bg-blue-600 hover:bg-blue-700 p-3 rounded-xl font-bold flex items-center justify-center transition-all">
+                <i class="fas fa-save mr-2"></i> SIMPAN DATA
             </button>
+            <p class="text-zinc-500 text-[10px] font-bold px-2 uppercase">Halaman</p>
+            <div class="p-3 rounded-lg bg-green-600/10 text-green-500 font-bold border border-green-600/20 text-center text-xs">MEI 2026</div>
         </nav>
-
-        <div class="pt-6 border-t border-zinc-800">
-            <button class="text-zinc-500 hover:text-red-500 flex items-center gap-3 font-bold text-sm transition-all">
-                <i class="fas fa-sign-out-alt"></i> KELUAR
-            </button>
-        </div>
     </aside>
 
-    <main class="flex-1 p-10 space-y-10 overflow-y-auto">
-        
-        <div class="grid grid-cols-3 gap-6">
-            <div class="bank-card p-6 relative overflow-hidden group">
-                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-all">
-                    <i class="fas fa-arrow-down text-6xl text-green-500"></i>
-                </div>
-                <p class="text-zinc-500 text-xs font-bold uppercase mb-1">Total Pemasukan</p>
-                <h3 id="display-total-masuk" class="text-3xl font-extrabold text-green-500">Rp 0</h3>
+    <main class="flex-1 p-8 space-y-8">
+        <div class="grid grid-cols-3 gap-4">
+            <div class="card p-6 border-l-4 border-l-green-500">
+                <p class="text-zinc-500 text-xs font-bold uppercase">Total Pemasukan</p>
+                <h3 id="display-total-masuk" class="text-2xl font-black text-green-500">Rp 0</h3>
             </div>
-            <div class="bank-card p-6 relative overflow-hidden group">
-                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-all">
-                    <i class="fas fa-arrow-up text-6xl text-red-500"></i>
-                </div>
-                <p class="text-zinc-500 text-xs font-bold uppercase mb-1">Total Pengeluaran</p>
-                <h3 id="display-total-keluar" class="text-3xl font-extrabold text-red-500">Rp 0</h3>
+            <div class="card p-6 border-l-4 border-l-red-500">
+                <p class="text-zinc-500 text-xs font-bold uppercase">Total Pengeluaran</p>
+                <h3 id="display-total-keluar" class="text-2xl font-black text-red-500">Rp 0</h3>
             </div>
-            <div class="bank-card p-6 bg-gradient-to-br from-blue-900/20 to-transparent border-blue-500/30">
-                <p class="text-blue-400 text-xs font-bold uppercase mb-1">Sisa Saldo Efektif</p>
-                <h3 id="display-saldo" class="text-3xl font-extrabold text-white">Rp 0</h3>
+            <div class="card p-6 border-l-4 border-l-blue-500">
+                <p class="text-zinc-500 text-xs font-bold uppercase">Sisa Saldo</p>
+                <h3 id="display-saldo" class="text-2xl font-black text-blue-500">Rp 0</h3>
             </div>
         </div>
 
-        <div class="space-y-4">
-            <div class="flex items-center justify-between">
-                <h2 class="text-lg font-bold flex items-center gap-2">
-                    <span class="w-2 h-6 bg-green-500 rounded-full"></span> 
-                    MUTASI KREDIT (IN)
-                </h2>
-            </div>
-            <div class="bank-card overflow-hidden">
-                <table>
+        <div class="space-y-3">
+            <h2 class="text-green-500 font-bold uppercase text-sm tracking-widest">Dana Masuk (IN)</h2>
+            <div class="card overflow-hidden">
+                <table class="w-full border-collapse">
                     <thead>
                         <tr>
-                            <th class="text-center">#</th>
-                            <th width="20%">TANGGAL</th>
-                            <th width="45%">KETERANGAN TRANSAKSI</th>
-                            <th class="text-right pr-6">NOMINAL (IDR)</th>
+                            <th class="text-center">NO</th>
+                            <th width="25%">TANGGAL</th>
+                            <th width="40%">KETERANGAN</th>
+                            <th class="text-right-header">NOMINAL (RP)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -146,10 +86,10 @@
                             for(let i=1; i<=7; i++) {
                                 document.write(`
                                 <tr>
-                                    <td class="no-col">${i}</td>
-                                    <td><input type="text" class="save" id="it${i}" placeholder="HH/BB/TT"></td>
-                                    <td><input type="text" class="save" id="ik${i}" placeholder="Nama transaksi..."></td>
-                                    <td class="pr-4"><input type="text" class="save text-right font-extrabold text-green-500 in-val" id="in${i}" oninput="formatInput(this)" placeholder="0"></td>
+                                    <td class="col-no">${i}</td>
+                                    <td><input type="text" class="save" id="it${i}" placeholder="-"></td>
+                                    <td><input type="text" class="save" id="ik${i}" placeholder="-"></td>
+                                    <td><input type="text" class="save text-right font-bold text-green-500 in-val" id="in${i}" oninput="formatInput(this)" placeholder="0"></td>
                                 </tr>`);
                             }
                         </script>
@@ -158,21 +98,16 @@
             </div>
         </div>
 
-        <div class="space-y-4 pb-10">
-            <div class="flex items-center justify-between">
-                <h2 class="text-lg font-bold flex items-center gap-2">
-                    <span class="w-2 h-6 bg-red-500 rounded-full"></span> 
-                    MUTASI DEBET (OUT)
-                </h2>
-            </div>
-            <div class="bank-card overflow-hidden">
-                <table>
+        <div class="space-y-3">
+            <h2 class="text-red-500 font-bold uppercase text-sm tracking-widest">Pengeluaran (OUT)</h2>
+            <div class="card overflow-hidden">
+                <table class="w-full border-collapse">
                     <thead>
                         <tr>
-                            <th class="text-center">#</th>
-                            <th width="20%">TANGGAL</th>
-                            <th width="45%">KETERANGAN TRANSAKSI</th>
-                            <th class="text-right pr-6">NOMINAL (IDR)</th>
+                            <th class="text-center">NO</th>
+                            <th width="25%">TANGGAL</th>
+                            <th width="40%">KETERANGAN</th>
+                            <th class="text-right-header">NOMINAL (RP)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -180,10 +115,10 @@
                             for(let i=1; i<=7; i++) {
                                 document.write(`
                                 <tr>
-                                    <td class="no-col">${i}</td>
-                                    <td><input type="text" class="save" id="ot${i}" placeholder="HH/BB/TT"></td>
-                                    <td><input type="text" class="save" id="ok${i}" placeholder="Tujuan pengeluaran..."></td>
-                                    <td class="pr-4"><input type="text" class="save text-right font-extrabold text-red-400 out-val" id="on${i}" oninput="formatInput(this)" placeholder="0"></td>
+                                    <td class="col-no">${i}</td>
+                                    <td><input type="text" class="save" id="ot${i}" placeholder="-"></td>
+                                    <td><input type="text" class="save" id="ok${i}" placeholder="-"></td>
+                                    <td><input type="text" class="save text-right font-bold text-red-500 out-val" id="on${i}" oninput="formatInput(this)" placeholder="0"></td>
                                 </tr>`);
                             }
                         </script>
@@ -192,57 +127,58 @@
             </div>
         </div>
     </main>
+</div>
 
-    <script>
-        function formatInput(el) {
-            let val = el.value.replace(/[^0-9]/g, '');
-            if (val !== "") {
-                el.value = new Intl.NumberFormat('id-ID').format(val);
-            } else {
-                el.value = "";
-            }
-            calculate();
+<script>
+    function formatInput(el) {
+        let val = el.value.replace(/[^0-9]/g, '');
+        if (val !== "") {
+            el.value = new Intl.NumberFormat('en-US').format(val);
+        } else {
+            el.value = "";
         }
+        calculate();
+    }
 
-        function toNum(str) {
-            return Number(str.replace(/\./g, '')) || 0;
-        }
+    function toNum(str) {
+        return Number(str.replace(/,/g, '')) || 0;
+    }
 
-        function formatDisplay(num) {
-            return "Rp " + new Intl.NumberFormat('id-ID').format(num);
-        }
+    function formatDisplay(num) {
+        return "Rp " + new Intl.NumberFormat('en-US').format(num);
+    }
 
-        function calculate() {
-            let totalIn = 0;
-            let totalOut = 0;
+    function calculate() {
+        let totalIn = 0;
+        let totalOut = 0;
 
-            document.querySelectorAll('.in-val').forEach(input => {
-                totalIn += toNum(input.value);
-            });
+        document.querySelectorAll('.in-val').forEach(input => {
+            totalIn += toNum(input.value);
+        });
 
-            document.querySelectorAll('.out-val').forEach(input => {
-                totalOut += toNum(input.value);
-            });
+        document.querySelectorAll('.out-val').forEach(input => {
+            totalOut += toNum(input.value);
+        });
 
-            document.getElementById('display-total-masuk').innerText = formatDisplay(totalIn);
-            document.getElementById('display-total-keluar').innerText = formatDisplay(totalOut);
-            document.getElementById('display-saldo').innerText = formatDisplay(totalIn - totalOut);
-        }
+        document.getElementById('display-total-masuk').innerText = formatDisplay(totalIn);
+        document.getElementById('display-total-keluar').innerText = formatDisplay(totalOut);
+        document.getElementById('display-saldo').innerText = formatDisplay(totalIn - totalOut);
+    }
 
-        function saveData() {
-            document.querySelectorAll('.save').forEach(input => {
-                localStorage.setItem('gery_bank_v1_' + input.id, input.value);
-            });
-            alert("✅ OTENTIKASI BERHASIL\nData mutasi bank telah diperbarui secara aman.");
-        }
+    function saveData() {
+        document.querySelectorAll('.save').forEach(input => {
+            localStorage.setItem('gery_finance_v4_' + input.id, input.value);
+        });
+        alert("✅ Berhasil! Data sudah rapi, sejajar, dan tersimpan.");
+    }
 
-        window.onload = function() {
-            document.querySelectorAll('.save').forEach(input => {
-                const saved = localStorage.getItem('gery_bank_v1_' + input.id);
-                if (saved) input.value = saved;
-            });
-            calculate();
-        };
-    </script>
+    window.onload = function() {
+        document.querySelectorAll('.save').forEach(input => {
+            const saved = localStorage.getItem('gery_finance_v4_' + input.id);
+            if (saved) input.value = saved;
+        });
+        calculate();
+    };
+</script>
 </body>
 </html>
